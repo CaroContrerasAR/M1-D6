@@ -1,0 +1,16 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.container{
+    background-color: rgb(170, 199, 252);
+    padding: 2rem;
+    display:block;
+    overflow: scroll;
+    width:fit-content;
+}
+
+thead{
+    text-transform: uppercase;
+}
