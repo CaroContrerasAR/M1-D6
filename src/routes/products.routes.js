@@ -16,11 +16,11 @@ router.get('/', async (req,res) => {
 
 router.post('/', uploader.single('thumbnail'), async (req,res) => {
     try {
-        if(!req.file)return res.status(400).send({status: 'FIL', data: 'No se pudo subir el archivo' })
+        if(!req.file)return res.status(400).send({status: 'FIL', data: 'Failed to upload file' })
         
         const { title, description, price, code, stock } = req.body
         if(!title || !description || !price || !code || !stock){
-            return res.status(400).send({ status: 'ERR', data: 'Faltan campos obligatorios'})
+            return res.status(400).send({ status: 'ERR', data: 'All fields are required'})
         }
     
         const newContent = {
@@ -52,9 +52,14 @@ router.put('/:pid', async (req,res) => {
     }
 })
 
-router.delete('/', async (req,res) => {
-    // const products = await controller.getProducts()
-    // res.status(200).send({ status: 'Todo Ok', data: products })
+router.delete('/:pid', async (req,res) => {
+    try{
+        const id = req.params.pid
+        const procedure = await controller.deleteProducts(id)
+        res.status(200).send({status: 'Ok', data: procedure})
+    } catch(err){
+        res.status(500).send({err:err.message})
+    }
 })
 
 export default router

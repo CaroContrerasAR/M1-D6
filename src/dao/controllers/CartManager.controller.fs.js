@@ -1,13 +1,13 @@
 import { promises as fs } from 'fs';
 import { nanoid } from 'nanoid';
-import ProductManager from './ProductManager.controller.js';
+import ProductManager from "../dao/controllers/ProductManager.controller.fs.js";
 
 const productsAll = new  ProductManager
 
 export class CartManager {
 
     constructor() {
-        this.path = './src/models/carts.json'
+        this.path = "./src/dao/data/carts.json"
         //this.products = [];
     }
 

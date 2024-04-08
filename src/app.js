@@ -5,11 +5,12 @@ import handlebars from 'express-handlebars'
 
 import {__dirname} from './utils.js'
 import viewsRouter from './routes/views.routes.js'
-import productsRouter from './routes/products.routes.js/index.js'
+import productsRouter from './routes/products.routes.js'
 
 //import ProductManager from './dao/controllers/ProductManager.controller.mdb.js'
 
 const PORT =process.env.PORT || 5000
+//const MONGOOSE_URL = 'mongodb+srv://coderatlas:O7sKIR6KvABcVc3d@cluster0.5cwsly0.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
 const MONGOOSE_URL = 'mongodb://127.0.0.1:27017/ecommerce' //al funcionar probar con atlas
 
 const app=express()

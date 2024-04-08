@@ -4,7 +4,7 @@ import { nanoid } from 'nanoid';
 export class ProductManager {
      
     constructor() {
-        this.path = './src/models/products.json'
+        this.path = './src/dao/data/products.json'
         this.products = [];
     }
 

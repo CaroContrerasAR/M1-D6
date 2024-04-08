@@ -15,7 +15,7 @@ export class ProductManager {
     }
 
     async getProducts() {
-        try {
+        try {   //usar lean() luego del find() para que mongoose lo convierta en Obj nativo JS
             const products = await productModel.find().lean()
             return products
         } catch (err) {
