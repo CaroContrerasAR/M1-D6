@@ -6,7 +6,7 @@ const controller = new ProductManager()
 
 router.get('/chat', (req,res) => {
     res.render('chat',{
-        title:"Coder Compras Chat"
+        title:"Chat"
     })
 })
 

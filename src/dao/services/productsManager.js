@@ -18,15 +18,15 @@ export default class ProductManager{
         return result
     }
     addProduct = async(product)=>{
-        let result = await porductModel.create(product)
+        let result = await productModel.create(product)
         return result
     }
     updateProduct = async(id,productData)=>{
-        let result = await porductModel.updateOne({id: id},{$set: productData})
+        let result = await productModel.updateOne({id: id},{$set: productData})
         return result
     }
     deleteProduct = async(id)=>{
-        let result = await porductModel.deleteOne({id: id})
+        let result = await productModel.deleteOne({id: id})
 
         return result
     }

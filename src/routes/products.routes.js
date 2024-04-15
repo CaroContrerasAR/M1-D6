@@ -5,7 +5,7 @@ import { ProductManager} from '../dao/controllers/ProductManager.controller.mdb.
 const router = Router()
 const controller = new ProductManager()
 
-router.get('/', async (req,res) => {
+router.get('/', async (req, res) => {
     try {
         const products = await controller.getProducts()
         res.status(200).send({ status: 'Todo Ok', data: products })
@@ -16,7 +16,7 @@ router.get('/', async (req,res) => {
 
 router.post('/', uploader.single('thumbnail'), async (req,res) => {
     try {
-        if(!req.file)return res.status(400).send({status: 'FIL', data: 'Failed to upload file' })
+        if(!req.file) return res.status(400).send({status: 'FIL', data: 'Failed to upload file' })
         
         const { title, description, price, code, stock } = req.body
         if(!title || !description || !price || !code || !stock){
@@ -27,8 +27,8 @@ router.post('/', uploader.single('thumbnail'), async (req,res) => {
             title,
             description,
             price,
-            //obj req.file dispnible con Multer como middleware
-            // mediante el obj uploader
+            // el obj req.file está disponible porque estamos utilizando Multer como middleware,
+            // mediante el objeto uploader que estamos importando e inyectando.
             thumbnail: req.file.filename,
             code,
             stock

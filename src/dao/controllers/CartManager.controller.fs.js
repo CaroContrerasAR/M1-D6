@@ -7,7 +7,7 @@ const productsAll = new  ProductManager
 export class CartManager {
 
     constructor() {
-        this.path = "./src/dao/data/carts.json"
+        this.path = "./src/data/carts.json"
         //this.products = [];
     }
 
