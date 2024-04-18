@@ -4,7 +4,7 @@ const message = document.getElementById('message')
 const received_message = document.getElementById('received_message')
 
 const users = [
-    { id:1 , firstName:"Carlos", lastName:"Perren", userName:"cperren"},
+    { id:1 , firstName:"Carlos", lastName:"Baute", userName:"cbaute"},
     { id:2 , firstName:"Carolina", lastName:"Ferrero", userName:"cferrero"},
     { id:3 , firstName:"Juan", lastName:"Perez", userName:"jperez"}
 ]
@@ -59,7 +59,7 @@ const authenticate = () => {
                 authenticate()
                 })
         }
-        console.log(`Se conecto ${user.firstName} ${user.lastName}`) //veo el usuario en consola
+        console.log(`Se conecto ${user.firstName} ${user.lastName}`)
     })
 }
 
