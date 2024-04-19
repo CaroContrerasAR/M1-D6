@@ -7,16 +7,16 @@ export class ProductManager {
     
     async addProducts(product) {
         try {
-            await productModel.create(product)
+            await this.productModel.create(product)
             return 'Product Added'
         } catch (err) {
             return err.message
         }
     }
 
-    async getProducts() {
+    async getProducts(limit) {
         try {   //usar lean() luego del find() para que mongoose lo convierta en Obj nativo JS
-            const products = await productModel.find().lean()
+            const products = await this.productModel.find().limit(limit)
             return products
         } catch (err) {
             return err.message
@@ -25,7 +25,7 @@ export class ProductManager {
 
     async getProductsById(id){
         try {
-            const productById = await productModel.findById(id)
+            const productById = await this.productModel.findById(id)
             return productById === null ? 'Product Not Found' : productById
         } catch (err) {
             return err.message
@@ -34,7 +34,8 @@ export class ProductManager {
     
     async updateProducts(id, product){
         try {
-            const procedure = await productModel.findByIdAndUpdate(id, product)
+            const procedure = await this.productModel.findByIdAndUpdate(id, product)
+            //const procedure = await this.productModel.updateOne ({_id:id}, {$set: product})
             return procedure
         } catch (err) {
             return err.message
@@ -43,10 +44,12 @@ export class ProductManager {
     
     async deleteProducts(id){
         try {
-            const procedure = await productModel.findByIdAndDelete(id)
+            const procedure = await this.productModel.findByIdAndDelete(id)
+            //const procedure = await this.productModel.deleteOne({_id: id})
             return procedure
         } catch (err) {
             return err.message
         }
     }        
 }
+

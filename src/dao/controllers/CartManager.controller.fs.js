@@ -43,7 +43,7 @@ export class CartManager {
         const cartsById = await this.exist(cartId)
         if(!cartsById) return 'Cart Not found'
         const productById = await productsAll.exist(productId)
-        if(!cartsById) return 'Product Not found'
+        if(!productId) return 'Product Not found'
 
         const cartAll = await this.readCarts()
         const cartFilter = cartAll.filter(cart => cart.id != cartId)

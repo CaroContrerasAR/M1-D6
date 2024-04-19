@@ -1,20 +1,61 @@
-import cartModel from '../models/carts.models.js';
-import productsModels from '../models/products.models.js';
+import  cartModel from '../models/carts.models.js';
+import  productModel from '../models/products.models.js'
 
 //const productsAll = new  ProductManager
 
 export class CartManager {
-
     constructor() {
     }
 
     async getCarts(){
         try {
-            return await cartModel.find().lean()
+            const cart = await this.cartModel.find().lean()
+            return res.json(cart)
+        } catch (err) {
+            console.error('Error:', err)
+            return res.status(500).json({error: "Error en la base de datos", details:err.message})
+        }
+    };
+    
+    async createCarts(){
+        try {
+            return await this.cartModel.create({})
         } catch (err) {
             return err.message
         }
-    };
+    }
+
+    async addProductInCart(cartId, productId, quantity){
+        try {
+            const cart = await this.cartModel.findById(cartId)
+            if(!cart){
+                await createCarts()
+                //return 'Cart Not Found'
+            } 
+            const product = cart.product.find((product)=>product.product.toString() === productId)
+            if (!product) {
+                return res.status(404).json({ error: 'Product Not found'});
+              }
+            if (product.stock < quantity) {
+                product.quantity += quantity
+            } else {
+                cart.product.push({product: productId, quantity})
+            }
+            return await cart.save()
+        } catch (err) {
+            return err.message
+        }
+    }
+
+    async getCartsById(id){
+        try{
+            return await this.cartsModel.findById(id);
+        }catch(err){
+            return err.message
+        }
+    }
+           
+    async deleteCart(id){}
     
     // writeCarts= async (cart)=>{
     //     await fs.writeFile(this.path,JSON.stringify(cart))
