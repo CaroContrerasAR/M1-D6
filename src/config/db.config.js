@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
-
-const DB_URL = process.env.DB_URI || 'mongodb+srv://coderatlas:O7sKIR6KvABcVc3d@cluster0.5cwsly0.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
-//const DB_URL = process.env.DB_URI || 'mongodb://127.0.0.1:27017/ecommerce' //al funcionar probar con atlas
+//const DB_URL = process.env.DB_URI || 'mongodb+srv://acccarolina:qSDoqtjEi0cl76v2@cluster0.5cwsly0.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
+//const DB_URL = process.env.DB_URI || 'mongodb+srv://coderatlas:O7sKIR6KvABcVc3d@cluster0.5cwsly0.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
+const DB_URL = process.env.DB_URI || 'mongodb://127.0.0.1:27017/ecommerce?retryWrites=true&w=majority' //al funcionar probar con atlas
 
 const connectDB = async() => {
     try {

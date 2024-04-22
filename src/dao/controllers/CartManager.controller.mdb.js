@@ -25,21 +25,21 @@ export class CartManager {
         }
     }
 
-    async addProductInCart(cartId, productId, quantity){
+    async addProductInCart(cid, pid, qtty){
         try {
-            const cart = await this.cartModel.findById(cartId)
+            const cart = await this.cartModel.findById(cid)
+            const product = cart.products.find((product)=>product.product.toString() === pid)
             if(!cart){
                 await createCarts()
                 //return 'Cart Not Found'
             } 
-            const product = cart.product.find((product)=>product.product.toString() === productId)
             if (!product) {
                 return res.status(404).json({ error: 'Product Not found'});
               }
-            if (product.stock < quantity) {
-                product.quantity += quantity
+            if (product.stock < qtty) {
+                product.qtty += qtty
             } else {
-                cart.product.push({product: productId, quantity})
+                cart.product.push({product: pid, qtty})
             }
             return await cart.save()
         } catch (err) {
@@ -55,53 +55,19 @@ export class CartManager {
         }
     }
            
-    async deleteCart(id){}
-    
-    // writeCarts= async (cart)=>{
-    //     await fs.writeFile(this.path,JSON.stringify(cart))
-    // }
-
-    // exist = async(id) => {
-    //     const carts = await this.readCarts()
-    //     return carts.find(cart => cart.id === id)
-    // }
-
-    // addCarts = async (cartId,productId) =>{
-    //     const cartsOld = await this.readCarts();
-    //     const id = nanoid()
-    //     const cartsConcat = [ {id : id, products : []}, ...cartsOld]
-    //     await this.writeCarts(cartsConcat)
-    //     return 'added Carts'
-    // }
-
-    // getCartsById = async (id) =>{
-    //     const cartsById = await this.exist(id)
-    //     if(!cartsById) return 'Cart Not found'
-    //     return cartsById
-    // };
-
-    // addProductInCart = async (cartId, productId) => {
-    //     const cartsById = await this.exist(cartId)
-    //     if(!cartsById) return 'Cart Not found'
-    //     const productById = await productsAll.exist(productId)
-    //     if(!cartsById) return 'Product Not found'
-
-    //     const cartAll = await this.readCarts()
-    //     const cartFilter = cartAll.filter(cart => cart.id != cartId)
-        
-    //     if(cartsById.products.some((prod) => prod.id === productId)){
-    //         const moreProductInCart = cartsById.products.find((prod) => prod.id === productId);
-    //         moreProductInCart.quantity++
-    //         console.log(moreProductInCart.quantity)
-    //         const cartsConcat = [cartsById, ...cartFilter]
-    //         await this.writeCarts(cartsConcat)
-    //         return 'Addeed Product in Carts'
-    //     }
-    //     cartsById.products.push({ id: productById.id, quantity: 1})
-
-    //     const cartsConcat = [cartsById, ...cartFilter]
-    //     await this.writeCarts(cartsConcat)
-    //     return 'Product Added to Carts'
-    // }
+    async deleteProductInCart(pid, cid){
+        try {
+            const cart = await this.cartModel.findById(cid)
+            const product = cart.products.findIndex((product)=>product.product.toString() === pid)
+            if( product === 0 ){
+                console.log('Product Not Found')
+            }else {
+                cart.product.splice(product,1)
+            }
+            return await cart.save()
+        } catch (err) {
+            return err.message
+        }
+    }
 }
 export default CartManager

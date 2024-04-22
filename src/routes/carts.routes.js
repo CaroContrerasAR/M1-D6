@@ -7,9 +7,9 @@ const controller = new CartManager()
 router.get('/', async (req, res) => {
     try {
         const carts = await controller.getCarts()
-        res.status(200).send({ status: 'OK', data: carts })
+        res.status(200).send({ status: 'success', data: carts })
     } catch (err) {
-        res.status(500).send({ status: 'ERR', data: err.message })
+        res.status(500).send({ status: 'error', data: err.message })
     }
 })
 

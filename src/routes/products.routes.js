@@ -5,25 +5,43 @@ import { ProductManager} from '../dao/controllers/ProductManager.controller.mdb.
 const router = Router()
 const controller = new ProductManager()
 
+// GET /api/products
 router.get('/', async (req, res) => {
+    const {limit} = req.query
     try {
-        const products = await controller.getProducts()
-        res.status(200).send({ status: 'Todo Ok', data: products })
+        const products = await controller.getProducts(parseInt(limit))
+        res.status(200).send({ status: 'success', data: products })
     } catch (err) {
-        res.status(500).send({ err: err.message })
+        res.status(500).send({ status: 'error', error: err.message })
     }
 })
 
+// GET /api//products/:id
+router.get('/:pid', async (req, res) => {
+    const { pid } = req.params
+    try {
+        const products = await controller.getProductsById(pid)
+        if(!products) {
+            return res.status(400).send({ status: 'error', error: 'Product Not Found' })
+        }
+        res.status(200).send({ status: 'success', data: products })            
+    } catch (err) {
+        console.log(err)
+        res.status(500).send({ status: 'error', error: err.message })
+    }
+})
+
+// POST /api/products
 router.post('/', uploader.single('thumbnail'), async (req,res) => {
     try {
-        if(!req.file) return res.status(400).send({status: 'FIL', data: 'Failed to upload file' })
+        if(!req.file) return res.status(400).send({ status: 'fil', data: 'Failed to upload file' })
         
         const { title, description, price, code, stock } = req.body
         if(!title || !description || !price || !code || !stock){
-            return res.status(400).send({ status: 'ERR', data: 'All fields are required'})
+            return res.status(400).send({ status: 'error', error: 'All fields are required'})
         }
     
-        const newContent = {
+        const newProduct = {
             title,
             description,
             price,
@@ -34,31 +52,33 @@ router.post('/', uploader.single('thumbnail'), async (req,res) => {
             stock
         }
     
-        const result = await controller.addProducts(newContent)
-        res.status(200).send({ status: 'Ok', data: result })
+        const result = await controller.addProducts(newProduct)
+        res.status(201).send({ status: 'success', data: result })
     } catch (err) {
-        res.status(500).send({ err: err.message })
+        res.status(500).send({ status:'error', error: err.message })
     }
 })
 
+// PUT /api/products/:pid
 router.put('/:pid', async (req,res) => {
+    const id = req.params.pid
+    const updateProduct = req.body
     try {
-        const id = req.params.pid
-        const updateProduct = req.body
         const procedure = await controller.updateProducts( id, updateProduct )
-        res.status(200).send({status: 'Ok', data: procedure})
+        res.status(200).send({ status: 'success', data: procedure })
     } catch (err) {
-        res.status(500).send({ err: err.message })
+        res.status(500).send({ status:'error',error: err.message })
     }
 })
 
-router.delete('/:pid', async (req,res) => {
+// DELETE /api/products/:pid
+router.delete('/:pid', async (req, res) => {
+    const id = req.params.pid
     try{
-        const id = req.params.pid
         const procedure = await controller.deleteProducts(id)
-        res.status(200).send({status: 'Ok', data: procedure})
+        res.status(200).send({ status: 'success', data: null })
     } catch(err){
-        res.status(500).send({err:err.message})
+        res.status(500).send({ status: 'error', error: err.message })
     }
 })
 
