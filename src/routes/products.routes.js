@@ -3,13 +3,13 @@ import { uploader } from '../uploader.js'
 import { ProductManager} from '../dao/controllers/ProductManager.controller.mdb.js'
 
 const router = Router()
-const controller = new ProductManager()
+const pManager = new ProductManager()
 
 // GET /api/products
 router.get('/', async (req, res) => {
     const {limit} = req.query
     try {
-        const products = await controller.getProducts(parseInt(limit))
+        const products = await pManager.getProducts(parseInt(limit))
         res.status(200).send({ status: 'success', data: products })
     } catch (err) {
         res.status(500).send({ status: 'error', error: err.message })
@@ -20,7 +20,7 @@ router.get('/', async (req, res) => {
 router.get('/:pid', async (req, res) => {
     const { pid } = req.params
     try {
-        const products = await controller.getProductsById(pid)
+        const products = await pManager.getProductsById(pid)
         if(!products) {
             return res.status(400).send({ status: 'error', error: 'Product Not Found' })
         }
@@ -52,7 +52,7 @@ router.post('/', uploader.single('thumbnail'), async (req,res) => {
             stock
         }
     
-        const result = await controller.addProducts(newProduct)
+        const result = await pManager.addProducts(newProduct)
         res.status(201).send({ status: 'success', data: result })
     } catch (err) {
         res.status(500).send({ status:'error', error: err.message })
@@ -64,7 +64,7 @@ router.put('/:pid', async (req,res) => {
     const id = req.params.pid
     const updateProduct = req.body
     try {
-        const procedure = await controller.updateProducts( id, updateProduct )
+        const procedure = await pManager.updateProducts( id, updateProduct )
         res.status(200).send({ status: 'success', data: procedure })
     } catch (err) {
         res.status(500).send({ status:'error',error: err.message })
@@ -75,7 +75,7 @@ router.put('/:pid', async (req,res) => {
 router.delete('/:pid', async (req, res) => {
     const id = req.params.pid
     try{
-        const procedure = await controller.deleteProducts(id)
+        const procedure = await pManager.deleteProducts(id)
         res.status(200).send({ status: 'success', data: null })
     } catch(err){
         res.status(500).send({ status: 'error', error: err.message })

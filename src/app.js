@@ -6,6 +6,7 @@ import connectDB from './config/db.config.js'
 import {__dirname} from './utils.js'
 import viewsRouter from './routes/views.routes.js'
 import productsRouter from './routes/products.routes.js'
+import cartsRouter from './routes/carts.routes.js'
 
 //Inicio
 const app=express()
@@ -23,6 +24,12 @@ app.set('view engine', 'handlebars')
 //Routes
 app.use('/',viewsRouter)
 app.use('/api/products',productsRouter)
+app.use('/api/carts',cartsRouter)
+
+app.post('/test', (req, res) => {
+    console.log(req.body); // Loguea el cuerpo de la solicitud
+    res.send('Received');
+});
 
 app.use('/static', express.static(`${__dirname}/public`))
 

@@ -2,7 +2,7 @@ import productModel from '../models/products.models.js'
 
 export class ProductManager {
     constructor() {
-        //console.log('Trabajando con ProductManager MDB')
+        //console.log('Constructor ProductManager')
     }
     
     async addProducts(product) {
@@ -10,8 +10,7 @@ export class ProductManager {
     }
 
     async getProducts(limit) {
-        return await productModel.find().limit(limit)
-
+        return await productModel.find().limit(limit).lean()
     }
 
     async getProductsById(id){
